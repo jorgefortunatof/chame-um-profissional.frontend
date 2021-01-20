@@ -1,5 +1,5 @@
 import styled from 'styled-components';
 
-export const Body = styled.div`
-    background-color: green;
+export const Container = styled.div`
+	background-color: white;
 `;
