@@ -3,7 +3,7 @@ export default {
 	darker: '#2B2D42',
 
 	primary: '#D80032',
-	light_primary: '#EF233C',
+	primary_lighter: '#EF233C',
 
 	light: '#EDF2F4',
 	lighter: '#FFFFFF',
