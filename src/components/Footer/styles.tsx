@@ -6,6 +6,6 @@ export const Container = styled.footer`
 	background-color: ${colors.dark};
 
 	svg {
-		width: 400px;
+		width: 360px;
 	}
 `;
