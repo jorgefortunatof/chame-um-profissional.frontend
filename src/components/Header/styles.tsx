@@ -18,7 +18,8 @@ export const LogoContainer = styled.div`
 `;
 
 export const SearchBarContainer = styled.div`
-	width: 460px;
+	width: 100%;
+	max-width: 460px;
 	height: 40px;
 
 	justify-content: center;
