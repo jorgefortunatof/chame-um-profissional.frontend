@@ -7,7 +7,7 @@ export const Container = styled.header`
 	align-items: center;
 
 	background-color: ${colors.darker};
-	padding: 15px 20px;
+	padding: 15px 40px;
 `;
 
 export const LogoContainer = styled.div`
@@ -18,7 +18,7 @@ export const LogoContainer = styled.div`
 `;
 
 export const SearchBarContainer = styled.div`
-	width: 360px;
+	width: 460px;
 	height: 40px;
 
 	justify-content: center;

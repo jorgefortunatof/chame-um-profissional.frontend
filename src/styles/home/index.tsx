@@ -5,4 +5,6 @@ export const Container = styled.div`
 	background-color: ${colors.lighter};
 `;
 
-export const CategoriesSection = styled.section``;
+export const CategoriesSection = styled.section`
+	min-height: 100vh;
+`;
