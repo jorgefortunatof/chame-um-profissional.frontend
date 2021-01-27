@@ -22,6 +22,7 @@ export const CategoriesSection = styled.section`
 	padding: 20px 40px;
 
 	ul {
+		margin: 20px;
 		overflow-x: scroll;
 		white-space: nowrap;
 

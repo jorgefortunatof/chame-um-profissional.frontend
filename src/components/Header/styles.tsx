@@ -89,6 +89,10 @@ export const HamburguerContainer = styled.div`
 	margin-left: 20px;
 	font-size: 30px;
 
+	svg {
+		cursor: pointer;
+	}
+
 	@media (min-width: 800px) {
 		display: none;
 	}
