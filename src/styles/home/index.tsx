@@ -5,9 +5,12 @@ export const Container = styled.div`
 	display: flex;
 	flex-direction: column;
 
+	width: 100%;
+	max-width: 1200px;
 	min-height: 100vh;
+
+	margin: 0 auto;
 	padding: 20px 0;
-	background-color: ${colors.light};
 
 	h1 {
 		font-weight: 300;
@@ -59,11 +62,9 @@ export const ProfessionalSection = styled.section`
 `;
 
 export const ProfessionalCard = styled.a`
-	background-color: ${colors.lighter};
-
-	width: 100%;
-	max-width: 280px;
-	margin: 20px 20px 0 0;
+	flex: 1;
+	min-width: 280px;
+	margin: 20px;
 	padding: 24px;
 
 	color: ${colors.dark};

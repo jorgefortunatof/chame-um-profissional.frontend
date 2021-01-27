@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
+import colors from './colors';
 
 const GlobalStyle = createGlobalStyle`
 * {
@@ -11,6 +12,7 @@ body {
   padding: 0;
   margin: 0;
   font-family: 'Roboto', sans-serif;
+ 	background-color: ${colors.light};
 }
 
 a {
