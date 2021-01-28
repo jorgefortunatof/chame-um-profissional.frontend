@@ -1,7 +1,10 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import colors from '../colors';
 
 export const Container = styled.div`
+	display: flex;
+	flex-direction: column;
+
 	min-height: 100vh;
 
 	h1 {
@@ -50,4 +53,33 @@ export const ProfessionalCard = styled.a`
 			margin-right: 10px;
 		}
 	}
+`;
+
+export const PaginationContainer = styled.div`
+	display: flex;
+	flex: 1;
+
+	justify-content: center;
+	align-items: flex-end;
+
+	ul {
+		margin-bottom: 40px;
+	}
+`;
+
+export const PageLink = styled.a<{ disabled: boolean }>`
+	margin-right: 10px;
+	padding: 10px;
+
+	background-color: ${colors.lighter};
+	color: ${colors.dark};
+
+	${props =>
+		props.disabled &&
+		css`
+			cursor: default;
+			pointer-events: none;
+			background-color: ${colors.dark};
+			color: ${colors.light};
+		`}
 `;
