@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { SyntheticEvent, useCallback, useState } from 'react';
 
 import { FiSearch, FiMenu, FiX } from 'react-icons/fi';
 import Link from 'next/link';
 
+import { useRouter } from 'next/router';
 import {
 	Container,
 	LogoContainer,
@@ -16,7 +17,21 @@ import Logo from '../../assets/logo.svg';
 import LogoSmall from '../../assets/logo-small.svg';
 
 const Header: React.FC = () => {
-	const [showMenu, setShowMenu] = useState(false);
+	const router = useRouter();
+
+	const [showMenu, setShowMenu] = useState<boolean>(false);
+	const [search, setSearch] = useState<string>();
+
+	const handleSearch = useCallback(
+		async (event: SyntheticEvent) => {
+			event.preventDefault();
+
+			if (!search) return;
+
+			router.push(`/professional?search=${search}`);
+		},
+		[router, search],
+	);
 
 	return (
 		<>
@@ -34,12 +49,14 @@ const Header: React.FC = () => {
 					</Link>
 				</LogoContainer>
 
-				<SearchBarContainer>
+				<SearchBarContainer onSubmit={handleSearch}>
 					<input
+						value={search}
+						onChange={action => setSearch(action.target.value)}
 						type="text"
 						placeholder="Busque por profissionais ou serviços..."
 					/>
-					<button type="button">
+					<button type="submit">
 						<FiSearch />
 					</button>
 				</SearchBarContainer>

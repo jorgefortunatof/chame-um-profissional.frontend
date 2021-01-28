@@ -38,7 +38,7 @@ export const LogoContainer = styled.div`
 	}
 `;
 
-export const SearchBarContainer = styled.div`
+export const SearchBarContainer = styled.form`
 	width: 100%;
 	max-width: 460px;
 	height: 40px;

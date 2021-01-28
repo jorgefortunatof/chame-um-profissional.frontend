@@ -15,7 +15,7 @@ const DefaultTemplate: React.FC<DefaultTemplateProps> = ({
 		<>
 			<Head>
 				<title>Chame um Profissional</title>
-				<link rel="icon" href="/favicon.ico" />
+				<link rel="icon" href="/favicon.svg" />
 				<link
 					href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Russo+One&display=swap"
 					rel="stylesheet"
