@@ -1,11 +1,16 @@
 import styled, { css } from 'styled-components';
-import colors from '../colors';
+import { lighten } from 'polished';
+import colors from './colors';
 
 export const Container = styled.div`
 	display: flex;
 	flex-direction: column;
 
+	width: 100%;
+	max-width: 1200px;
 	min-height: 100vh;
+
+	margin: 0 auto;
 
 	h1 {
 		font-weight: 300;
@@ -18,14 +23,16 @@ export const ProfessionalSection = styled.section`
 
 	ul {
 		display: flex;
-		flex-wrap: wrap;
+		flex-direction: column;
 		justify-content: center;
 	}
 `;
 
 export const ProfessionalCard = styled.a`
 	flex: 1;
-	min-width: 280px;
+	display: flex;
+	flex-direction: row;
+
 	margin: 20px;
 	padding: 24px;
 
@@ -38,20 +45,27 @@ export const ProfessionalCard = styled.a`
 		border: 2px solid ${colors.dark};
 	}
 
-	> svg {
-		width: 100%;
-		font-size: 120px;
-		margin-bottom: 20px;
+	> div:first-child {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		> svg {
+			font-size: 120px;
+		}
 	}
 
 	div {
+		flex: 1;
 		margin-bottom: 5px;
-		span {
-		}
 
 		svg {
 			margin-right: 10px;
 		}
+	}
+
+	p {
+		color: ${lighten(0.1, colors.dark)};
 	}
 `;
 

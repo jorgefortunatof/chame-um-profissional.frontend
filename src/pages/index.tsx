@@ -51,10 +51,8 @@ const Home: React.FC = () => {
 					<h1>Categorias</h1>
 					<ul>
 						{categories.map((cat: Category) => (
-							<Link href={`/professional/?search=${cat.name}`}>
-								<a key={cat.id} href={`/professional/?search=${cat.name}`}>
-									{cat.name}
-								</a>
+							<Link key={cat.id} href={`/professional/?search=${cat.name}`}>
+								<a href={`/professional/?search=${cat.name}`}>{cat.name}</a>
 							</Link>
 						))}
 					</ul>

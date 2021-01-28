@@ -11,6 +11,7 @@
     "@svgr/webpack": "^5.5.0",
     "axios": "^0.21.1",
     "next": "10.0.5",
+    "polished": "^4.1.0",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-icons": "^4.1.0",

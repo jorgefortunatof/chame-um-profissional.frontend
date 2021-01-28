@@ -23,6 +23,7 @@ interface Professional {
 	id: number;
 	name: string;
 	location: string;
+	description: string;
 	category: { id: number; name: string };
 }
 
@@ -67,18 +68,25 @@ const Professionals: React.FC = () => {
 					<ul>
 						{professionals.map((pro: Professional) => (
 							<ProfessionalCard key={pro.id}>
-								<FaUserCircle />
 								<div>
-									<FaAddressCard />
-									<span>{pro.name}</span>
+									<FaUserCircle />
 								</div>
+
 								<div>
-									<FaBriefcase />
-									<span>{pro.category?.name}</span>
-								</div>
-								<div>
-									<FaMapMarkerAlt />
-									<span>{pro.location}</span>
+									<div>
+										<FaAddressCard />
+										<span>{pro.name}</span>
+									</div>
+									<div>
+										<FaBriefcase />
+										<span>{pro.category?.name}</span>
+									</div>
+									<div>
+										<FaMapMarkerAlt />
+										<span>{pro.location}</span>
+									</div>
+
+									<p>{pro.description}</p>
 								</div>
 							</ProfessionalCard>
 						))}
@@ -102,6 +110,7 @@ const Professionals: React.FC = () => {
 
 									return (
 										<Link
+											key={pageIndex}
 											href={`/professional?search=${search}&p=${pageIndex}`}
 										>
 											<PageLink
