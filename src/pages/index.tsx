@@ -31,14 +31,23 @@ interface Professional {
 const Home: React.FC = () => {
 	const [categories, setCategories] = useState<Category[]>([]);
 	const [professionals, setProfessionals] = useState<Professional[]>([]);
+	const [spotlight, setSpotlight] = useState<Professional[]>([]);
 
 	const getData = useCallback(async () => {
-		const responseCategories = await api.get('/category');
-		const responseProfessionals = await api.get('/professional');
+		const [
+			responseCategories,
+			responseProfessionals,
+			responseSpotlight,
+		] = await Promise.all([
+			api.get('/category'),
+			api.get('/professional/nextToYou'),
+			api.get('/professional/spotlight'),
+		]);
 
 		setCategories(responseCategories.data);
-		setProfessionals(responseProfessionals.data.data);
-	}, [setCategories, setProfessionals]);
+		setProfessionals(responseProfessionals.data);
+		setSpotlight(responseSpotlight.data);
+	}, [setCategories, setProfessionals, setSpotlight]);
 
 	useEffect(() => {
 		getData();
@@ -61,7 +70,7 @@ const Home: React.FC = () => {
 				<ProfessionalSection>
 					<h1>Destaques</h1>
 					<ul>
-						{professionals.map((pro: Professional) => (
+						{spotlight.map((pro: Professional) => (
 							<ProfessionalCard key={pro.id}>
 								<FaUserCircle />
 								<div>
