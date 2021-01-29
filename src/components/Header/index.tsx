@@ -62,11 +62,11 @@ const Header: React.FC = () => {
 				</SearchBarContainer>
 
 				<AuthContainer>
-					<Link href="entrar">
-						<a href="entrar">Entrar</a>
+					<Link href="signin">
+						<a href="signin">Entrar</a>
 					</Link>
-					<Link href="cadastrar">
-						<a href="cadastrar">Cadastrar</a>
+					<Link href="signup">
+						<a href="signup">Cadastrar</a>
 					</Link>
 				</AuthContainer>
 

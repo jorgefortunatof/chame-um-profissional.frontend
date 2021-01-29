@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "@svgr/webpack": "^5.5.0",
+    "@unform/core": "^2.1.4",
+    "@unform/web": "^2.1.4",
     "axios": "^0.21.1",
     "next": "10.0.5",
     "polished": "^4.1.0",
