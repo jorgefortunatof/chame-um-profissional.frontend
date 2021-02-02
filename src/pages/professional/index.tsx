@@ -8,6 +8,7 @@ import {
 } from 'react-icons/fa';
 
 import Link from 'next/link';
+import { AxiosError } from 'axios';
 import api from '../../services/api';
 import DefaultTemplate from '../../templates/DefaultTemplate';
 
@@ -40,14 +41,21 @@ const Professionals: React.FC = () => {
 	const [pageData, setPageData] = useState<PageData>(null);
 
 	const getData = useCallback(async () => {
-		const response = await api.get(`/professional?search=${search}`, {
-			headers: { page: p || 1 },
-		});
+		try {
+			const response = await api.get(`/professional?search=${search}`, {
+				headers: { page: p || 1 },
+			});
 
-		const { data, page, lastPage } = response.data;
+			const { data, page, lastPage } = response.data;
 
-		setPageData({ page, lastPage });
-		setProfessionals(data);
+			setPageData({ page, lastPage });
+			setProfessionals(data);
+		} catch (err) {
+			const axiosError: AxiosError<{ message: string }> = err;
+			if (axiosError) {
+				// tratar
+			}
+		}
 	}, [search, p, setProfessionals, setPageData]);
 
 	useEffect(() => {
