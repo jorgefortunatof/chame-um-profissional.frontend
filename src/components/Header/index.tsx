@@ -15,9 +15,11 @@ import {
 
 import Logo from '../../assets/logo.svg';
 import LogoSmall from '../../assets/logo-small.svg';
+import { useAuth } from '../../hooks/auth';
 
 const Header: React.FC = () => {
 	const router = useRouter();
+	const { signOut, user } = useAuth();
 
 	const [showMenu, setShowMenu] = useState<boolean>(false);
 	const [search, setSearch] = useState<string>();
@@ -62,12 +64,20 @@ const Header: React.FC = () => {
 				</SearchBarContainer>
 
 				<AuthContainer>
-					<Link href="signin">
-						<a href="signin">Entrar</a>
-					</Link>
-					<Link href="signup">
-						<a href="signup">Cadastrar</a>
-					</Link>
+					{!user ? (
+						<>
+							<Link href="signin">
+								<a href="signin">Entrar</a>
+							</Link>
+							<Link href="signup">
+								<a href="signup">Cadastrar</a>
+							</Link>
+						</>
+					) : (
+						<a onClick={signOut} href="/">
+							Sair
+						</a>
+					)}
 				</AuthContainer>
 
 				<HamburguerContainer onClick={() => setShowMenu(!showMenu)}>
@@ -78,12 +88,20 @@ const Header: React.FC = () => {
 			{showMenu && (
 				<MobileMenuContainer>
 					<div>
-						<Link href="entrar">
-							<a href="entrar">Entrar</a>
-						</Link>
-						<Link href="cadastrar">
-							<a href="cadastrar">Cadastrar</a>
-						</Link>
+						{!user ? (
+							<>
+								<Link href="signin">
+									<a href="signin">Entrar</a>
+								</Link>
+								<Link href="signup">
+									<a href="signup">Cadastrar</a>
+								</Link>
+							</>
+						) : (
+							<a onClick={signOut} href="/">
+								Sair
+							</a>
+						)}
 					</div>
 				</MobileMenuContainer>
 			)}

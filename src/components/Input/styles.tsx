@@ -73,14 +73,13 @@ export const Container = styled.div<ContainerProps>`
 
 export const Error = styled(Tooltip)`
 	height: 20px;
+	margin-right: 20px;
 
 	svg {
 		margin: 0;
 	}
 
 	span {
-		margin-left: -8px;
-
 		background: ${colors.error};
 		color: ${colors.lighter};
 
