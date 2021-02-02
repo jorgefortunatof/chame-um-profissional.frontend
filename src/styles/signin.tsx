@@ -58,3 +58,7 @@ export const SignUpButton = styled(Button)`
 
 	max-width: 200px;
 `;
+
+export const Error = styled.span`
+	color: ${colors.error};
+`;

@@ -1,4 +1,5 @@
 import Router from 'next/router';
+import { AxiosError } from 'axios';
 
 import {
 	createContext,
@@ -16,13 +17,15 @@ interface Credentials {
 
 interface AuthContextData {
 	user: any;
+	error?: string;
 	signIn(credentials: Credentials): Promise<void>;
 	signOut(): void;
 }
 
 interface AuthState {
-	token: string;
 	user: any;
+	token: string;
+	error?: string;
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
@@ -40,16 +43,26 @@ const AuthProvider: React.FC = ({ children }) => {
 	}, []);
 
 	const signIn = useCallback(async ({ email, password }: Credentials) => {
-		const response = await api.post('/signin', { email, password });
+		try {
+			const response = await api.post('/signin', { email, password });
+			const { token, user } = response.data;
 
-		const { token, user } = response.data;
+			localStorage.setItem('@ChameUmProfissional:token', token);
+			localStorage.setItem('@ChameUmProfissional:user', JSON.stringify(user));
 
-		localStorage.setItem('@ChameUmProfissional:token', token);
-		localStorage.setItem('@ChameUmProfissional:user', JSON.stringify(user));
+			setData({ token, user });
 
-		setData({ token, user });
-
-		Router.push('/');
+			Router.push('/');
+		} catch (err) {
+			const axiosError: AxiosError<{ message: string }> = err;
+			if (axiosError) {
+				setData({
+					error: axiosError.response?.data.message,
+					user: null,
+					token: null,
+				});
+			}
+		}
 	}, []);
 
 	const signOut = useCallback(() => {
@@ -60,7 +73,9 @@ const AuthProvider: React.FC = ({ children }) => {
 	}, []);
 
 	return (
-		<AuthContext.Provider value={{ user: data.user, signIn, signOut }}>
+		<AuthContext.Provider
+			value={{ user: data.user, error: data.error, signIn, signOut }}
+		>
 			{children}
 		</AuthContext.Provider>
 	);

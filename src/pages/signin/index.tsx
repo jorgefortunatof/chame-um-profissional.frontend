@@ -12,6 +12,7 @@ import {
 	Card,
 	SignInButton,
 	SignUpButton,
+	Error,
 } from '../../styles/signin';
 import getValidationErros from '../../utils/getValidationError';
 
@@ -26,7 +27,7 @@ interface SignInFormData {
 
 const SignIn: React.FC = () => {
 	const formRef = useRef<FormHandles>(null);
-	const { signIn, user } = useAuth();
+	const { signIn, user, error } = useAuth();
 
 	if (user) {
 		Router.push('/');
@@ -50,7 +51,6 @@ const SignIn: React.FC = () => {
 
 				const { email, password } = data;
 
-				console.log({ email, password });
 				signIn({ email, password });
 			} catch (err) {
 				const errors = getValidationErros(err);
@@ -79,9 +79,10 @@ const SignIn: React.FC = () => {
 							<Input name="password" type="password" placeholder="Senha" />
 
 							<SignInButton type="submit">Entrar</SignInButton>
+							{error && <Error>{`${error}!`}</Error>}
 						</Form>
 
-						<a href="/">Esqueceu a senha ?</a>
+						{/* <a href="/">Esqueceu a senha ?</a> */}
 						<hr />
 						<SignUpButton>Cadastrar</SignUpButton>
 					</main>
