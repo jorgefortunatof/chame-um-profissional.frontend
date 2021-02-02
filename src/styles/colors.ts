@@ -8,5 +8,5 @@ export default {
 	light: '#EDF2F4',
 	lighter: '#FFFFFF',
 
-	error: '#c53030',
+	error: '#EF233C',
 };

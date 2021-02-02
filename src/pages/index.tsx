@@ -34,19 +34,23 @@ const Home: React.FC = () => {
 	const [spotlight, setSpotlight] = useState<Professional[]>([]);
 
 	const getData = useCallback(async () => {
-		const [
-			responseCategories,
-			responseProfessionals,
-			responseSpotlight,
-		] = await Promise.all([
-			api.get('/category'),
-			api.get('/professional/nextToYou'),
-			api.get('/professional/spotlight'),
-		]);
+		try {
+			const [
+				responseCategories,
+				responseProfessionals,
+				responseSpotlight,
+			] = await Promise.all([
+				api.get('/category'),
+				api.get('/professional/nextToYou'),
+				api.get('/professional/spotlight'),
+			]);
 
-		setCategories(responseCategories.data);
-		setProfessionals(responseProfessionals.data);
-		setSpotlight(responseSpotlight.data);
+			setCategories(responseCategories.data);
+			setProfessionals(responseProfessionals.data);
+			setSpotlight(responseSpotlight.data);
+		} catch (e) {
+			console.log(e);
+		}
 	}, [setCategories, setProfessionals, setSpotlight]);
 
 	useEffect(() => {

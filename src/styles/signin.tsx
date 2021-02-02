@@ -18,10 +18,11 @@ export const Card = styled.div`
 	background-color: ${colors.lighter};
 
 	border-radius: 8px;
-	overflow: hidden;
 
 	header {
 		background-color: ${colors.darker};
+		border-top-right-radius: 8px;
+		border-top-left-radius: 8px;
 		padding: 20px;
 
 		svg {
