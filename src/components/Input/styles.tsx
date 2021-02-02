@@ -60,14 +60,11 @@ export const Container = styled.div<ContainerProps>`
 			transition: background-color 50000s ease-in-out 0s;
 			-webkit-box-shadow: ${colors.light};
 			box-shadow: ${colors.light};
-			-webkit-text-fill-color: ${colors.light} !important;
+			-webkit-text-fill-color: ${colors.dark} !important;
 		}
 		&::placeholder {
 			color: ${colors.dark};
 		}
-	}
-	svg {
-		margin-right: 16px;
 	}
 `;
 
