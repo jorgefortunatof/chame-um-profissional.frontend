@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import Button from '../components/Button';
-import colors from './colors';
+import Button from '../../components/Button';
+import colors from '../colors';
 
 export const Container = styled.div`
 	min-height: 100vh;

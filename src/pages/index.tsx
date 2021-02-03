@@ -13,7 +13,7 @@ import {
 	CategoriesSection,
 	ProfessionalSection,
 	ProfessionalCard,
-} from '../styles/home';
+} from '../styles/pages/home';
 import api from '../services/api';
 
 interface Category {

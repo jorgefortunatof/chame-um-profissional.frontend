@@ -13,7 +13,7 @@ import {
 	SignInButton,
 	SignUpButton,
 	Error,
-} from '../../styles/signin';
+} from '../../styles/pages/signin';
 import getValidationErros from '../../utils/getValidationError';
 
 import Logo from '../../assets/logo.svg';

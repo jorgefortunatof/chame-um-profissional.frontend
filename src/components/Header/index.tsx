@@ -1,6 +1,8 @@
 import { SyntheticEvent, useCallback, useState } from 'react';
 
 import { FiSearch, FiMenu, FiX } from 'react-icons/fi';
+import { FaUserCircle } from 'react-icons/fa';
+
 import Link from 'next/link';
 
 import { useRouter } from 'next/router';
@@ -11,6 +13,7 @@ import {
 	AuthContainer,
 	HamburguerContainer,
 	MobileMenuContainer,
+	ProfileLink,
 } from './styles';
 
 import Logo from '../../assets/logo.svg';
@@ -74,9 +77,18 @@ const Header: React.FC = () => {
 							</Link>
 						</>
 					) : (
-						<a onClick={signOut} href="/">
-							Sair
-						</a>
+						<>
+							<Link href="profile">
+								<ProfileLink href="profile">
+									<FaUserCircle />
+									<span>Meu Perfil</span>
+								</ProfileLink>
+							</Link>
+
+							<a onClick={signOut} href="/">
+								Sair
+							</a>
+						</>
 					)}
 				</AuthContainer>
 
@@ -87,22 +99,29 @@ const Header: React.FC = () => {
 
 			{showMenu && (
 				<MobileMenuContainer>
-					<div>
-						{!user ? (
-							<>
-								<Link href="signin">
-									<a href="signin">Entrar</a>
-								</Link>
-								<Link href="signup">
-									<a href="signup">Cadastrar</a>
-								</Link>
-							</>
-						) : (
+					{!user ? (
+						<>
+							<Link href="signin">
+								<a href="signin">Entrar</a>
+							</Link>
+							<Link href="signup">
+								<a href="signup">Cadastrar</a>
+							</Link>
+						</>
+					) : (
+						<>
+							<Link href="profile">
+								<ProfileLink href="profile">
+									<FaUserCircle />
+									<span>Meu Perfil</span>
+								</ProfileLink>
+							</Link>
+
 							<a onClick={signOut} href="/">
 								Sair
 							</a>
-						)}
-					</div>
+						</>
+					)}
 				</MobileMenuContainer>
 			)}
 		</>

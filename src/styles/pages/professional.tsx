@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 import { lighten } from 'polished';
-import colors from './colors';
+import colors from '../colors';
 
 export const Container = styled.div`
 	display: flex;

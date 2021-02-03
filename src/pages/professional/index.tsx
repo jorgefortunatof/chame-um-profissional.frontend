@@ -18,7 +18,7 @@ import {
 	ProfessionalCard,
 	PaginationContainer,
 	PageLink,
-} from '../../styles/professional';
+} from '../../styles/pages/professional';
 
 interface Professional {
 	id: number;

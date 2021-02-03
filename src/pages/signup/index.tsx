@@ -8,7 +8,12 @@ import Link from 'next/link';
 import Router from 'next/router';
 import { AxiosError } from 'axios';
 import DefaultTemplate from '../../templates/DefaultTemplate';
-import { Container, Card, SignUpButton, Error } from '../../styles/signup';
+import {
+	Container,
+	Card,
+	SignUpButton,
+	Error,
+} from '../../styles/pages/signup';
 import getValidationErros from '../../utils/getValidationError';
 
 import Logo from '../../assets/logo.svg';

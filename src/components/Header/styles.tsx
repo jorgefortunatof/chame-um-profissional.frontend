@@ -22,7 +22,7 @@ export const LogoContainer = styled.div`
 		height: auto;
 	}
 
-	@media (max-width: 800px) {
+	@media (max-width: 900px) {
 		a:first-child {
 			display: none;
 		}
@@ -69,6 +69,10 @@ export const AuthContainer = styled.div`
 	color: ${colors.lighter};
 	margin-left: 20px;
 
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+
 	a + a {
 		background-color: ${colors.primary};
 		padding: 6px 8px;
@@ -76,7 +80,7 @@ export const AuthContainer = styled.div`
 		border-radius: 4px;
 	}
 
-	@media (max-width: 800px) {
+	@media (max-width: 1000px) {
 		display: none;
 	}
 `;
@@ -93,39 +97,27 @@ export const HamburguerContainer = styled.div`
 		cursor: pointer;
 	}
 
-	@media (min-width: 800px) {
+	@media (min-width: 1000px) {
 		display: none;
 	}
 `;
 
 export const MobileMenuContainer = styled.nav`
-	background-color: ${colors.dark};
+	background-color: ${colors.darker};
 	color: ${colors.lighter};
 
-	> a {
-		border-top: 1px solid ${colors.light};
+	display: flex;
+	justify-content: center;
+	align-items: center;
 
-		display: block;
-		padding: 20px 40px;
-	}
+	border-top: 1px solid ${colors.light};
+	padding: 20px 40px;
 
-	> div {
-		border-top: 1px solid ${colors.light};
-
-		padding: 20px 40px;
-
-		display: flex;
-		justify-content: center;
-		align-items: center;
-
-		background-color: ${colors.darker};
-
-		a + a {
-			background-color: ${colors.primary};
-			padding: 6px 8px;
-			margin-left: 10px;
-			border-radius: 4px;
-		}
+	a + a {
+		background-color: ${colors.primary};
+		padding: 6px 8px;
+		margin-left: 10px;
+		border-radius: 4px;
 	}
 
 	&::before {
@@ -142,7 +134,18 @@ export const MobileMenuContainer = styled.nav`
 		border-bottom: 10px solid ${colors.lighter};
 	}
 
-	@media (min-width: 800px) {
+	@media (min-width: 1000px) {
 		display: none;
+	}
+`;
+
+export const ProfileLink = styled.a`
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+
+	svg {
+		font-size: 26px;
+		margin-right: 4px;
 	}
 `;
