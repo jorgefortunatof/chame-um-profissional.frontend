@@ -13,6 +13,7 @@ import {
 	ProfileContainer,
 } from '../../styles/pages/profile';
 
+import validateCPF from '../../utils/validateCPF';
 import getValidationErros from '../../utils/getValidationError';
 import Input from '../../components/Input';
 import InputMask from '../../components/InputMask';
@@ -32,8 +33,6 @@ const Profile: React.FC = () => {
 	const formRef = useRef<FormHandles>(null);
 
 	const handleSubmit = useCallback(async (data: ProfileData) => {
-		console.log(data);
-
 		try {
 			formRef.current.setErrors({});
 
@@ -42,7 +41,18 @@ const Profile: React.FC = () => {
 					.required('E-mail obrigatório')
 					.email('Digite um e-mail válido'),
 				name: Yup.string().required('Nome obrigatório'),
-				cpf: Yup.string().required('CPF obrigatório'),
+				cpf: Yup.string()
+					.required('CPF obrigatório')
+					.test('cpf', 'CPF inválido', cpf => {
+						if (cpf.replace(/_/g, '').length < 14) {
+							return false;
+						}
+						if (!validateCPF(cpf)) {
+							return false;
+						}
+
+						return true;
+					}),
 				phone: Yup.string(),
 				category_id: Yup.number(),
 				decription: Yup.string(),
@@ -81,7 +91,10 @@ const Profile: React.FC = () => {
 								name="phone"
 								placeholder="Celular"
 							/>
-							<Select name="category_id">
+							<Select defaultValue="" name="category_id">
+								<option hidden selected>
+									Profissão
+								</option>
 								<option value="1">programador</option>
 								<option value="2">mecânico</option>
 								<option value="3">pedreiro</option>
