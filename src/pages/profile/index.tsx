@@ -13,10 +13,11 @@ import {
 	ProfileContainer,
 } from '../../styles/pages/profile';
 
+import getValidationErros from '../../utils/getValidationError';
 import Input from '../../components/Input';
+import InputMask from '../../components/InputMask';
 import Select from '../../components/Select';
 import TextArea from '../../components/TextArea';
-import getValidationErros from '../../utils/getValidationError';
 
 interface ProfileData {
 	email: string;
@@ -74,8 +75,12 @@ const Profile: React.FC = () => {
 						</header>
 
 						<main>
-							<Input name="cpf" placeholder="Cpf" />
-							<Input name="phone" placeholder="Celular" />
+							<InputMask mask="999.999.999-99" name="cpf" placeholder="Cpf" />
+							<InputMask
+								mask="(99)999999999"
+								name="phone"
+								placeholder="Celular"
+							/>
 							<Select name="category_id">
 								<option value="1">programador</option>
 								<option value="2">mecânico</option>
