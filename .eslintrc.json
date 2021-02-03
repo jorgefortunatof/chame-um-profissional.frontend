@@ -18,12 +18,7 @@
 		"ecmaVersion": 12,
 		"sourceType": "module"
 	},
-	"plugins": [
-		"react",
-		"react-hooks",
-		"@typescript-eslint",
-		"prettier"
-	],
+	"plugins": ["react", "react-hooks", "@typescript-eslint", "prettier"],
 	"rules": {
 		"prettier/prettier": "error",
 		"react-hooks/rules-of-hooks": "error",
@@ -31,9 +26,7 @@
 		"react/jsx-filename-extension": [
 			1,
 			{
-				"extensions": [
-					".tsx"
-				]
+				"extensions": [".tsx"]
 			}
 		],
 		"import/prefer-default-export": "off",
@@ -55,18 +48,13 @@
 		],
 		"no-tabs": 0,
 		"react/prop-types": 0,
-		"react/jsx-indent": [
-			2,
-			"tab"
-		],
-		"react/jsx-indent-props": [
-			2,
-			"tab"
-		],
+		"react/jsx-indent": [2, "tab"],
+		"react/jsx-indent-props": [2, "tab"],
 		"linebreak-style": "off",
 		"no-undef": "off",
 		"react/react-in-jsx-scope": "off",
-		"react/jsx-props-no-spreading": "off"
+		"react/jsx-props-no-spreading": "off",
+		"camelcase": "off"
 	},
 	"settings": {
 		"import/resolver": {

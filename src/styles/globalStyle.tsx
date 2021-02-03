@@ -3,6 +3,7 @@ import colors from './colors';
 
 const GlobalStyle = createGlobalStyle`
 * {
+  font-family: 'Roboto', sans-serif;
   box-sizing: border-box;
   padding: 0;
 }
@@ -11,7 +12,6 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: 'Roboto', sans-serif;
  	background-color: ${colors.light};
 }
 
@@ -22,6 +22,10 @@ a {
 
 a, button {
   cursor: pointer;
+}
+
+h1 { 
+  font-size: 26px;
 }
 `;
 

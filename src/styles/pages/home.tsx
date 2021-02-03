@@ -10,7 +10,7 @@ export const Container = styled.div`
 	min-height: 100vh;
 
 	margin: 0 auto;
-	padding: 20px 0;
+	padding: 20px 40px;
 
 	h1 {
 		font-weight: 300;
@@ -19,8 +19,6 @@ export const Container = styled.div`
 `;
 
 export const CategoriesSection = styled.section`
-	padding: 20px 40px;
-
 	ul {
 		margin: 20px;
 		overflow-x: scroll;
@@ -53,8 +51,6 @@ export const CategoriesSection = styled.section`
 `;
 
 export const ProfessionalSection = styled.section`
-	padding: 20px 40px;
-
 	ul {
 		display: flex;
 		flex-wrap: wrap;
