@@ -15,15 +15,26 @@ interface Credentials {
 	password: string;
 }
 
+interface User {
+	id: string;
+	name: string;
+	email: string;
+	cpf: string;
+	phone: string;
+	type: string;
+	category: { id: number; name: string };
+	description: string;
+}
+
 interface AuthContextData {
-	user: any;
+	user: User;
 	error?: string;
 	signIn(credentials: Credentials): Promise<void>;
 	signOut(): void;
 }
 
 interface AuthState {
-	user: any;
+	user: User;
 	token: string;
 	error?: string;
 }

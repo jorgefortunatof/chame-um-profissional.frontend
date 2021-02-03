@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import * as Yup from 'yup';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
@@ -19,61 +19,117 @@ import Input from '../../components/Input';
 import InputMask from '../../components/InputMask';
 import Select from '../../components/Select';
 import TextArea from '../../components/TextArea';
+import { useAuth } from '../../hooks/auth';
+import api from '../../services/api';
 
+interface Category {
+	id: number;
+	name: string;
+}
 interface ProfileData {
 	email: string;
 	name: string;
-	cpf: string;
+	cpf?: string;
 	phone: string;
-	category_id: number;
-	decription: string;
+	category_id?: number;
+	description: string;
 }
 
 const Profile: React.FC = () => {
+	const [categories, setCategories] = useState<Category[]>([]);
 	const formRef = useRef<FormHandles>(null);
+	const { user } = useAuth();
 
-	const handleSubmit = useCallback(async (data: ProfileData) => {
-		try {
-			formRef.current.setErrors({});
+	console.log({ user });
 
-			const schema = Yup.object().shape({
-				email: Yup.string()
-					.required('E-mail obrigatório')
-					.email('Digite um e-mail válido'),
-				name: Yup.string().required('Nome obrigatório'),
-				cpf: Yup.string()
-					.required('CPF obrigatório')
-					.test('cpf', 'CPF inválido', cpf => {
-						if (cpf.replace(/_/g, '').length < 14) {
+	const getCategories = useCallback(async () => {
+		const response = await api.get<Category[]>(`/category`);
+
+		setCategories(response.data);
+	}, []);
+
+	const updateUser = useCallback(
+		async ({ name, email, phone, category_id, description }: ProfileData) => {
+			const response = await api.put<ProfileData>(`/user/${user.id}`, {
+				name,
+				email,
+				phone,
+				category_id,
+				description,
+			});
+
+			const userUpdated = response.data;
+
+			console.log({ userUpdated });
+
+			localStorage.setItem(
+				'@ChameUmProfissional:user',
+				JSON.stringify(userUpdated),
+			);
+		},
+		[user],
+	);
+
+	const handleSubmit = useCallback(
+		async (data: ProfileData) => {
+			try {
+				formRef.current.setErrors({});
+
+				const schema = Yup.object().shape({
+					email: Yup.string()
+						.required('E-mail obrigatório')
+						.email('Digite um e-mail válido')
+						.trim(''),
+					name: Yup.string().required('Nome obrigatório').trim(''),
+					cpf: Yup.string()
+						// .required('CPF obrigatório')
+						.test('cpf', 'CPF inválido', cpf => {
+							if (!cpf) return true;
+							if (cpf.replace(/_/g, '').length < 14) {
+								return false;
+							}
+							if (!validateCPF(cpf)) {
+								return false;
+							}
+							return true;
+						}),
+					phone: Yup.string().test('phone', 'Número inválido', phone => {
+						if (!phone) return true;
+						if (phone.replace(/_/g, '').length < 13) {
 							return false;
 						}
-						if (!validateCPF(cpf)) {
-							return false;
-						}
-
 						return true;
 					}),
-				phone: Yup.string(),
-				category_id: Yup.number(),
-				decription: Yup.string(),
-			});
+					category_id: Yup.number(),
+					description: Yup.string().trim(''),
+				});
 
-			await schema.validate(data, {
-				abortEarly: false,
-			});
-		} catch (err) {
-			const errors = getValidationErros(err);
-			formRef.current?.setErrors({ ...errors });
-			console.log(err);
-		}
-	}, []);
+				const newData = await schema.validate(data, {
+					abortEarly: false,
+				});
+
+				console.log({ newData });
+
+				await updateUser(newData);
+			} catch (err) {
+				const errors = getValidationErros(err);
+				formRef.current?.setErrors({ ...errors });
+				console.log({ err });
+			}
+		},
+		[updateUser],
+	);
+
+	useEffect(() => {
+		getCategories();
+	}, [getCategories]);
 
 	return (
 		<DefaultTemplate hasHeader>
 			<Container>
 				<h1>Meu perfil</h1>
 				<FormCard>
-					<Form ref={formRef} onSubmit={handleSubmit}>
+					<Form ref={formRef} onSubmit={handleSubmit} initialData={{ ...user }}>
 						<ProfileContainer>
 							<FaUserCircle />
 							<img src="" alt="" />
@@ -91,14 +147,19 @@ const Profile: React.FC = () => {
 								name="phone"
 								placeholder="Celular"
 							/>
-							<Select defaultValue="" name="category_id">
-								<option hidden selected>
+							<Select name="category_id">
+								<option value={0} hidden>
 									Profissão
 								</option>
-								<option value="1">programador</option>
-								<option value="2">mecânico</option>
-								<option value="3">pedreiro</option>
-								<option value="4">motorista</option>
+								{categories.map(cat => (
+									<option
+										selected={cat.id === user?.category?.id}
+										key={cat.id}
+										value={cat.id}
+									>
+										{cat.name}
+									</option>
+								))}
 							</Select>
 							<TextArea rows={5} name="description" placeholder="Descrição" />
 						</main>
