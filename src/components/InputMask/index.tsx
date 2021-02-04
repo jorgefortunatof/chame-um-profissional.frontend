@@ -1,31 +1,29 @@
-import {
-	InputHTMLAttributes,
-	useEffect,
-	useRef,
-	useState,
-	useCallback,
-} from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
+import ReactInputMask, { Props as InputProps } from 'react-input-mask';
 import { IconBaseProps } from 'react-icons';
 import { FiAlertCircle } from 'react-icons/fi';
 import { useField } from '@unform/core';
 
-import InputMask from 'react-input-mask';
 import { Container, Error } from './styles';
 import colors from '../../styles/colors';
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface Props extends InputProps {
 	name: string;
-	mask: string;
 	icon?: React.ComponentType<IconBaseProps>;
 }
 
-const Input: React.FC<InputProps> = ({ name, icon: Icon, mask, ...rest }) => {
+const InputMask: React.FC<Props> = ({ name, icon: Icon, mask, ...rest }) => {
 	const inputRef = useRef(null);
 
 	const [isFocused, setIsFocused] = useState(false);
 	const [isFilled, setIsFilled] = useState(false);
+	const [maskState, setMaskState] = useState<string | (string | RegExp)[]>('');
 
-	const { error, fieldName, defaultValue, registerField } = useField(name);
+	const { fieldName, registerField, defaultValue, error } = useField(name);
+
+	useEffect(() => {
+		setMaskState(mask);
+	}, [defaultValue, mask]);
 
 	useEffect(() => {
 		registerField({
@@ -50,8 +48,8 @@ const Input: React.FC<InputProps> = ({ name, icon: Icon, mask, ...rest }) => {
 	return (
 		<Container isErrored={!!error} isFilled={isFilled} isFocused={isFocused}>
 			{Icon && <Icon />}
-			<InputMask
-				mask={mask}
+			<ReactInputMask
+				mask={maskState}
 				onBlur={handleInputBlur}
 				onFocus={() => setIsFocused(true)}
 				defaultValue={defaultValue}
@@ -67,4 +65,4 @@ const Input: React.FC<InputProps> = ({ name, icon: Icon, mask, ...rest }) => {
 	);
 };
 
-export default Input;
+export default InputMask;

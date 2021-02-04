@@ -78,12 +78,10 @@ const Header: React.FC = () => {
 						</>
 					) : (
 						<>
-							<Link href="profile">
-								<ProfileLink href="profile">
-									<FaUserCircle />
-									<span>Meu Perfil</span>
-								</ProfileLink>
-							</Link>
+							<ProfileLink href="profile">
+								<FaUserCircle />
+								<span>Meu Perfil</span>
+							</ProfileLink>
 
 							<a onClick={signOut} href="/">
 								Sair
@@ -110,12 +108,10 @@ const Header: React.FC = () => {
 						</>
 					) : (
 						<>
-							<Link href="profile">
-								<ProfileLink href="profile">
-									<FaUserCircle />
-									<span>Meu Perfil</span>
-								</ProfileLink>
-							</Link>
+							<ProfileLink href="profile">
+								<FaUserCircle />
+								<span>Meu Perfil</span>
+							</ProfileLink>
 
 							<a onClick={signOut} href="/">
 								Sair

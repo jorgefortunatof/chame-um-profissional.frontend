@@ -40,8 +40,6 @@ const Profile: React.FC = () => {
 	const formRef = useRef<FormHandles>(null);
 	const { user } = useAuth();
 
-	console.log({ user });
-
 	const getCategories = useCallback(async () => {
 		const response = await api.get<Category[]>(`/category`);
 
@@ -152,11 +150,7 @@ const Profile: React.FC = () => {
 									Profissão
 								</option>
 								{categories.map(cat => (
-									<option
-										selected={cat.id === user?.category?.id}
-										key={cat.id}
-										value={cat.id}
-									>
+									<option key={cat.id} value={cat.id}>
 										{cat.name}
 									</option>
 								))}
