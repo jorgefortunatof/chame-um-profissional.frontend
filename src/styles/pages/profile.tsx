@@ -50,10 +50,4 @@ export const SaveButton = styled(Button)`
 export const ProfileContainer = styled.div`
 	margin-bottom: 20px;
 	padding: 20px;
-
-	svg {
-		cursor: pointer;
-		font-size: 140px;
-		color: ${colors.dark};
-	}
 `;

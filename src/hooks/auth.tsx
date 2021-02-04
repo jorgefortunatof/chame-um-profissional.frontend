@@ -18,6 +18,7 @@ interface Credentials {
 interface User {
 	id: string;
 	name: string;
+	avatar_url: string;
 	email: string;
 	cpf: string;
 	phone: string;

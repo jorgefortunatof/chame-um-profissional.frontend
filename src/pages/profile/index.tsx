@@ -3,8 +3,8 @@ import * as Yup from 'yup';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 
-import { FaUserCircle } from 'react-icons/fa';
 import DefaultTemplate from '../../templates/DefaultTemplate';
+import ProfileAvatar from '../../components/ProfileAvatar';
 
 import {
 	Container,
@@ -33,6 +33,7 @@ interface ProfileData {
 	phone: string;
 	category_id?: number;
 	description: string;
+	avatar?: File;
 }
 
 const Profile: React.FC = () => {
@@ -45,6 +46,16 @@ const Profile: React.FC = () => {
 
 		setCategories(response.data);
 	}, []);
+
+	const updateAvatar = useCallback(
+		async (avatar: File) => {
+			const data = new FormData();
+			data.append('avatar', avatar);
+
+			await api.post(`/avatar/${user?.id}`, data);
+		},
+		[user],
+	);
 
 	const updateUser = useCallback(
 		async ({ name, email, phone, category_id, description }: ProfileData) => {
@@ -106,7 +117,9 @@ const Profile: React.FC = () => {
 					abortEarly: false,
 				});
 
-				console.log({ newData });
+				if (data.avatar) {
+					await updateAvatar(data.avatar);
+				}
 
 				await updateUser(newData);
 			} catch (err) {
@@ -115,7 +128,7 @@ const Profile: React.FC = () => {
 				console.log({ err });
 			}
 		},
-		[updateUser],
+		[updateUser, updateAvatar],
 	);
 
 	useEffect(() => {
@@ -130,11 +143,14 @@ const Profile: React.FC = () => {
 					<Form
 						ref={formRef}
 						onSubmit={handleSubmit}
-						initialData={{ ...user, category_id: user?.category.id }}
+						initialData={{
+							...user,
+							category_id: user?.category.id,
+							avatar: `${process.env.NEXT_PUBLIC_API_URL}${user?.avatar_url}`,
+						}}
 					>
 						<ProfileContainer>
-							<FaUserCircle />
-							<img src="" alt="" />
+							<ProfileAvatar name="avatar" />
 						</ProfileContainer>
 
 						<header>

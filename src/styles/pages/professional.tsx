@@ -59,6 +59,11 @@ export const ProfessionalCard = styled.a`
 		flex: 1;
 		margin-bottom: 5px;
 
+		> div {
+			display: flex;
+			align-items: center;
+		}
+
 		svg {
 			margin-right: 10px;
 		}
