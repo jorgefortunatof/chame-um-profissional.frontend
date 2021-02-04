@@ -127,7 +127,11 @@ const Profile: React.FC = () => {
 			<Container>
 				<h1>Meu perfil</h1>
 				<FormCard>
-					<Form ref={formRef} onSubmit={handleSubmit} initialData={{ ...user }}>
+					<Form
+						ref={formRef}
+						onSubmit={handleSubmit}
+						initialData={{ ...user, category_id: user?.category.id }}
+					>
 						<ProfileContainer>
 							<FaUserCircle />
 							<img src="" alt="" />
@@ -145,16 +149,18 @@ const Profile: React.FC = () => {
 								name="phone"
 								placeholder="Celular"
 							/>
-							<Select name="category_id">
-								<option value={0} hidden>
-									Profissão
-								</option>
-								{categories.map(cat => (
-									<option key={cat.id} value={cat.id}>
-										{cat.name}
+							{!!categories.length && (
+								<Select name="category_id">
+									<option value={0} hidden>
+										Profissão
 									</option>
-								))}
-							</Select>
+									{categories.map(cat => (
+										<option key={cat.id} value={cat.id}>
+											{cat.name}
+										</option>
+									))}
+								</Select>
+							)}
 							<TextArea rows={5} name="description" placeholder="Descrição" />
 						</main>
 
