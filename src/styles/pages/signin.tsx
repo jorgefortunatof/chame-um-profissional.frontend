@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { shade } from 'polished';
 import Button from '../../components/Button';
 import colors from '../colors';
 
@@ -50,6 +51,10 @@ export const Card = styled.div`
 export const SignInButton = styled(Button)`
 	background-color: ${colors.darker};
 	color: ${colors.lighter};
+
+	&:hover {
+		background-color: ${shade(0.5, colors.darker)};
+	}
 `;
 
 export const SignUpButton = styled(Button)`

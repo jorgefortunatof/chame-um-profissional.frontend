@@ -51,3 +51,15 @@ export const ProfileContainer = styled.div`
 	margin-bottom: 20px;
 	padding: 20px;
 `;
+
+export const Error = styled.span`
+	font-size: 18px;
+	font-weight: 500;
+	color: ${colors.error};
+`;
+
+export const Success = styled.span`
+	font-size: 18px;
+	font-weight: 500;
+	color: ${colors.dark};
+`;

@@ -35,9 +35,9 @@ const ImageInput: React.FC<InputProps> = ({ name, ...rest }) => {
 			name: fieldName,
 			ref: inputRef.current,
 			path: 'files[0]',
-			clearValue(ref: HTMLInputElement) {
-				ref.value = '';
-				setPreview(null);
+			clearValue() {
+				// ref.value = '';
+				// setPreview(null);
 			},
 			setValue(_: HTMLInputElement, value: string) {
 				setPreview(value);

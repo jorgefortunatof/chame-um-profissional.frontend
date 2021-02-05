@@ -3,6 +3,7 @@ import * as Yup from 'yup';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 
+import { AxiosError } from 'axios';
 import DefaultTemplate from '../../templates/DefaultTemplate';
 import ProfileAvatar from '../../components/ProfileAvatar';
 
@@ -11,6 +12,8 @@ import {
 	FormCard,
 	SaveButton,
 	ProfileContainer,
+	Success,
+	Error,
 } from '../../styles/pages/profile';
 
 import validateCPF from '../../utils/validateCPF';
@@ -37,14 +40,25 @@ interface ProfileData {
 }
 
 const Profile: React.FC = () => {
+	const [messageTimeout, setMessageTimeout] = useState(null);
+	const [error, setError] = useState('');
+	const [success, setSuccess] = useState(false);
 	const [categories, setCategories] = useState<Category[]>([]);
+
 	const formRef = useRef<FormHandles>(null);
 	const { user } = useAuth();
 
 	const getCategories = useCallback(async () => {
-		const response = await api.get<Category[]>(`/category`);
+		try {
+			const response = await api.get<Category[]>(`/category`);
 
-		setCategories(response.data);
+			setCategories(response.data);
+		} catch (err) {
+			const axiosError: AxiosError<{ message: string }> = err;
+			if (axiosError) {
+				setError(axiosError.response?.data.message);
+			}
+		}
 	}, []);
 
 	const updateAvatar = useCallback(
@@ -122,9 +136,15 @@ const Profile: React.FC = () => {
 				}
 
 				await updateUser(newData);
+				setSuccess(true);
 			} catch (err) {
 				const errors = getValidationErros(err);
 				formRef.current?.setErrors({ ...errors });
+
+				const axiosError: AxiosError<{ message: string }> = err;
+				if (axiosError) {
+					setError(axiosError.response?.data.message);
+				}
 				console.log({ err });
 			}
 		},
@@ -134,6 +154,22 @@ const Profile: React.FC = () => {
 	useEffect(() => {
 		getCategories();
 	}, [getCategories]);
+
+	useEffect(() => {
+		return () => {
+			clearTimeout(messageTimeout);
+		};
+	}, [messageTimeout]);
+
+	useEffect(() => {
+		if (success || error) {
+			const timeout = setTimeout(() => {
+				setSuccess(false);
+				setError('');
+			}, 3000);
+			setMessageTimeout(timeout);
+		}
+	}, [success, error]);
 
 	return (
 		<DefaultTemplate hasHeader>
@@ -185,6 +221,9 @@ const Profile: React.FC = () => {
 						<footer>
 							<SaveButton type="submit">Salvar</SaveButton>
 						</footer>
+
+						{success && <Success>Salvo com sucesso!</Success>}
+						{error && <Error>{error}</Error>}
 					</Form>
 				</FormCard>
 			</Container>
