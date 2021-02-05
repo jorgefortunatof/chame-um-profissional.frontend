@@ -1,4 +1,4 @@
-import Router from 'next/router';
+import { useRouter } from 'next/router';
 import { AxiosError } from 'axios';
 
 import {
@@ -15,27 +15,14 @@ interface Credentials {
 	password: string;
 }
 
-interface User {
-	id: string;
-	name: string;
-	avatar_url: string;
-	email: string;
-	cpf: string;
-	phone: string;
-	type: string;
-	category: { id: number; name: string };
-	description: string;
-}
-
 interface AuthContextData {
-	user: User;
+	token: string;
 	error?: string;
 	signIn(credentials: Credentials): Promise<void>;
 	signOut(): void;
 }
 
 interface AuthState {
-	user: User;
 	token: string;
 	error?: string;
 }
@@ -44,38 +31,40 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 const AuthProvider: React.FC = ({ children }) => {
 	const [data, setData] = useState<AuthState>({} as AuthState);
+	const router = useRouter();
 
 	useEffect(() => {
 		const token = localStorage.getItem('@ChameUmProfissional:token');
-		const user = localStorage.getItem('@ChameUmProfissional:user');
 
-		if (user && token) {
-			setData({ user: JSON.parse(user), token });
+		if (token) {
+			setData({ token });
 		}
 	}, []);
 
-	const signIn = useCallback(async ({ email, password }: Credentials) => {
-		try {
-			const response = await api.post('/signin', { email, password });
-			const { token, user } = response.data;
+	const signIn = useCallback(
+		async ({ email, password }: Credentials) => {
+			try {
+				const response = await api.post('/signin', { email, password });
+				const { token, user } = response.data;
 
-			localStorage.setItem('@ChameUmProfissional:token', token);
-			localStorage.setItem('@ChameUmProfissional:user', JSON.stringify(user));
+				localStorage.setItem('@ChameUmProfissional:token', token);
+				localStorage.setItem('@ChameUmProfissional:user', JSON.stringify(user));
 
-			setData({ token, user });
+				setData({ token });
 
-			Router.push('/');
-		} catch (err) {
-			const axiosError: AxiosError<{ message: string }> = err;
-			if (axiosError) {
-				setData({
-					error: axiosError.response?.data.message,
-					user: null,
-					token: null,
-				});
+				router.push('/');
+			} catch (err) {
+				const axiosError: AxiosError<{ message: string }> = err;
+				if (axiosError) {
+					setData({
+						error: axiosError.response?.data.message,
+						token: null,
+					});
+				}
 			}
-		}
-	}, []);
+		},
+		[router],
+	);
 
 	const signOut = useCallback(() => {
 		localStorage.removeItem('@ChameUmProfissional:token');
@@ -86,7 +75,7 @@ const AuthProvider: React.FC = ({ children }) => {
 
 	return (
 		<AuthContext.Provider
-			value={{ user: data.user, error: data.error, signIn, signOut }}
+			value={{ error: data.error, signIn, signOut, token: data.token }}
 		>
 			{children}
 		</AuthContext.Provider>

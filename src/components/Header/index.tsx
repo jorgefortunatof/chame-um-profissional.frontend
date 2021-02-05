@@ -16,15 +16,15 @@ import {
 
 import Logo from '../../assets/logo.svg';
 import LogoSmall from '../../assets/logo-small.svg';
-import { useAuth } from '../../hooks/auth';
 import MobileMenu from '../MobileMenu';
+import { useUser } from '../../hooks/user';
 
 const Header: React.FC = () => {
-	const router = useRouter();
-	const { user } = useAuth();
-
 	const [showMenu, setShowMenu] = useState<boolean>(false);
 	const [search, setSearch] = useState<string>();
+
+	const router = useRouter();
+	const { user } = useUser();
 
 	const handleSearch = useCallback(
 		async (event: SyntheticEvent) => {
@@ -66,7 +66,7 @@ const Header: React.FC = () => {
 				</SearchBarContainer>
 
 				<AuthContainer>
-					{!user ? (
+					{!user.id ? (
 						<>
 							<Link href="signin">
 								<a href="signin">Entrar</a>
@@ -78,7 +78,7 @@ const Header: React.FC = () => {
 					) : (
 						<label htmlFor="profile">
 							<FaUserCircle />
-							<span>{user.name.split(' ')[0].toUpperCase()}</span>
+							<span>{user?.name?.split(' ')[0].toUpperCase()}</span>
 							{!showMenu ? <FaChevronDown /> : <FaChevronUp />}
 							<input
 								onClick={() => setShowMenu(!showMenu)}

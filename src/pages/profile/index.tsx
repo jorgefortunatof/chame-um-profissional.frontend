@@ -4,6 +4,7 @@ import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 
 import { AxiosError } from 'axios';
+import { useRouter } from 'next/router';
 import DefaultTemplate from '../../templates/DefaultTemplate';
 import ProfileAvatar from '../../components/ProfileAvatar';
 
@@ -22,7 +23,7 @@ import Input from '../../components/Input';
 import InputMask from '../../components/InputMask';
 import Select from '../../components/Select';
 import TextArea from '../../components/TextArea';
-import { useAuth } from '../../hooks/auth';
+import { useUser } from '../../hooks/user';
 import api from '../../services/api';
 
 interface Category {
@@ -46,7 +47,8 @@ const Profile: React.FC = () => {
 	const [categories, setCategories] = useState<Category[]>([]);
 
 	const formRef = useRef<FormHandles>(null);
-	const { user } = useAuth();
+	const router = useRouter();
+	const { user, loading, updateUser, updateAvatar } = useUser();
 
 	const getCategories = useCallback(async () => {
 		try {
@@ -60,38 +62,6 @@ const Profile: React.FC = () => {
 			}
 		}
 	}, []);
-
-	const updateAvatar = useCallback(
-		async (avatar: File) => {
-			const data = new FormData();
-			data.append('avatar', avatar);
-
-			await api.post(`/avatar/${user?.id}`, data);
-		},
-		[user],
-	);
-
-	const updateUser = useCallback(
-		async ({ name, email, phone, category_id, description }: ProfileData) => {
-			const response = await api.put<ProfileData>(`/user/${user.id}`, {
-				name,
-				email,
-				phone,
-				category_id,
-				description,
-			});
-
-			const userUpdated = response.data;
-
-			console.log({ userUpdated });
-
-			localStorage.setItem(
-				'@ChameUmProfissional:user',
-				JSON.stringify(userUpdated),
-			);
-		},
-		[user],
-	);
 
 	const handleSubmit = useCallback(
 		async (data: ProfileData) => {
@@ -152,6 +122,14 @@ const Profile: React.FC = () => {
 	);
 
 	useEffect(() => {
+		console.log({ loading, user });
+		if (!loading && !user?.id) {
+			console.log('teste');
+			router.push('/signin');
+		}
+	}, [user, loading, router]);
+
+	useEffect(() => {
 		getCategories();
 	}, [getCategories]);
 
@@ -181,7 +159,7 @@ const Profile: React.FC = () => {
 						onSubmit={handleSubmit}
 						initialData={{
 							...user,
-							category_id: user?.category.id,
+							category_id: user?.category?.id,
 							avatar:
 								user?.avatar_url &&
 								`${process.env.NEXT_PUBLIC_API_URL}${user?.avatar_url}`,

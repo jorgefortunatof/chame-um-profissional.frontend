@@ -1,11 +1,11 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import * as Yup from 'yup';
 
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
 
 import Link from 'next/link';
-import Router from 'next/router';
+import { useRouter } from 'next/router';
 import { AxiosError } from 'axios';
 import DefaultTemplate from '../../templates/DefaultTemplate';
 import {
@@ -20,6 +20,7 @@ import Logo from '../../assets/logo.svg';
 import Input from '../../components/Input';
 import { useAuth } from '../../hooks/auth';
 import api from '../../services/api';
+import { useUser } from '../../hooks/user';
 
 interface SignInFormData {
 	email: string;
@@ -31,11 +32,15 @@ const SignIn: React.FC = () => {
 	const [error, setError] = useState<string>('');
 
 	const formRef = useRef<FormHandles>(null);
-	const { user, signIn } = useAuth();
+	const router = useRouter();
+	const { signIn } = useAuth();
+	const { user } = useUser();
 
-	if (user) {
-		Router.push('/');
-	}
+	useEffect(() => {
+		if (user?.id) {
+			router.push('/');
+		}
+	}, [user, router]);
 
 	const signUp = useCallback(
 		async ({ email, name, password }: SignInFormData) => {

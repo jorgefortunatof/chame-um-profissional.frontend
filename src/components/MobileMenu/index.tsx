@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { useEffect, useRef } from 'react';
 import { FaUserCircle } from 'react-icons/fa';
 import { useAuth } from '../../hooks/auth';
+import { useUser } from '../../hooks/user';
 import { MobileSignedMenu, MobileSignInMenu } from './styles';
 
 interface Props {
@@ -11,7 +12,8 @@ interface Props {
 
 const MobileMenu: React.FC<Props> = ({ showMenu, onBlur }) => {
 	const navRef = useRef<HTMLDivElement>(null);
-	const { user, signOut } = useAuth();
+	const { signOut } = useAuth();
+	const { user } = useUser();
 
 	useEffect(() => {
 		function handleClickOutside(event) {

@@ -1,11 +1,11 @@
-import { useCallback, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import * as Yup from 'yup';
 
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
 
 import Link from 'next/link';
-import Router from 'next/router';
+import { useRouter } from 'next/router';
 import DefaultTemplate from '../../templates/DefaultTemplate';
 import {
 	Container,
@@ -19,6 +19,7 @@ import getValidationErros from '../../utils/getValidationError';
 import Logo from '../../assets/logo.svg';
 import Input from '../../components/Input';
 import { useAuth } from '../../hooks/auth';
+import { useUser } from '../../hooks/user';
 
 interface SignInFormData {
 	email: string;
@@ -27,11 +28,16 @@ interface SignInFormData {
 
 const SignIn: React.FC = () => {
 	const formRef = useRef<FormHandles>(null);
-	const { signIn, user, error } = useAuth();
+	const router = useRouter();
 
-	if (user) {
-		Router.push('/');
-	}
+	const { user } = useUser();
+	const { signIn, error } = useAuth();
+
+	useEffect(() => {
+		if (user?.id) {
+			router.push('/');
+		}
+	}, [user, router]);
 
 	const handleSubmit = useCallback(
 		async (data: SignInFormData) => {
@@ -84,7 +90,9 @@ const SignIn: React.FC = () => {
 
 						{/* <a href="/">Esqueceu a senha ?</a> */}
 						<hr />
-						<SignUpButton>Cadastrar</SignUpButton>
+						<SignUpButton type="button" onClick={() => Router.push('/signup')}>
+							Cadastrar
+						</SignUpButton>
 					</main>
 				</Card>
 			</Container>
