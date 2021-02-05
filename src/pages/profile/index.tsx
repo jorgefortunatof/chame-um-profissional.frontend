@@ -146,7 +146,9 @@ const Profile: React.FC = () => {
 						initialData={{
 							...user,
 							category_id: user?.category.id,
-							avatar: `${process.env.NEXT_PUBLIC_API_URL}${user?.avatar_url}`,
+							avatar:
+								user?.avatar_url &&
+								`${process.env.NEXT_PUBLIC_API_URL}${user?.avatar_url}`,
 						}}
 					>
 						<ProfileContainer>
