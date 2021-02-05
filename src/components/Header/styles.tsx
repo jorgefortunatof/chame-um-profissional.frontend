@@ -73,6 +73,26 @@ export const AuthContainer = styled.div`
 	justify-content: center;
 	align-items: center;
 
+	label {
+		display: inline-flex;
+		align-items: center;
+
+		span {
+			margin-right: 5px;
+		}
+
+		input {
+			width: 0;
+			height: 0;
+			opacity: 0;
+		}
+
+		svg:first-child {
+			font-size: 30px;
+			margin-right: 5px;
+		}
+	}
+
 	a + a {
 		background-color: ${colors.primary};
 		padding: 6px 8px;
@@ -99,53 +119,5 @@ export const HamburguerContainer = styled.div`
 
 	@media (min-width: 1000px) {
 		display: none;
-	}
-`;
-
-export const MobileMenuContainer = styled.nav`
-	background-color: ${colors.darker};
-	color: ${colors.lighter};
-
-	display: flex;
-	justify-content: center;
-	align-items: center;
-
-	border-top: 1px solid ${colors.light};
-	padding: 20px 40px;
-
-	a + a {
-		background-color: ${colors.primary};
-		padding: 6px 8px;
-		margin-left: 10px;
-		border-radius: 4px;
-	}
-
-	&::before {
-		content: '';
-		width: 0;
-		height: 0;
-
-		position: absolute;
-		top: 65px;
-		right: 45px;
-
-		border-left: 10px solid transparent;
-		border-right: 10px solid transparent;
-		border-bottom: 10px solid ${colors.lighter};
-	}
-
-	@media (min-width: 1000px) {
-		display: none;
-	}
-`;
-
-export const ProfileLink = styled.a`
-	display: inline-flex;
-	justify-content: center;
-	align-items: center;
-
-	svg {
-		font-size: 26px;
-		margin-right: 4px;
 	}
 `;

@@ -1,7 +1,7 @@
 import { SyntheticEvent, useCallback, useState } from 'react';
 
 import { FiSearch, FiMenu, FiX } from 'react-icons/fi';
-import { FaUserCircle } from 'react-icons/fa';
+import { FaUserCircle, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 
 import Link from 'next/link';
 
@@ -12,17 +12,16 @@ import {
 	SearchBarContainer,
 	AuthContainer,
 	HamburguerContainer,
-	MobileMenuContainer,
-	ProfileLink,
 } from './styles';
 
 import Logo from '../../assets/logo.svg';
 import LogoSmall from '../../assets/logo-small.svg';
 import { useAuth } from '../../hooks/auth';
+import MobileMenu from '../MobileMenu';
 
 const Header: React.FC = () => {
 	const router = useRouter();
-	const { signOut, user } = useAuth();
+	const { user } = useAuth();
 
 	const [showMenu, setShowMenu] = useState<boolean>(false);
 	const [search, setSearch] = useState<string>();
@@ -39,7 +38,7 @@ const Header: React.FC = () => {
 	);
 
 	return (
-		<>
+		<div>
 			<Container>
 				<LogoContainer>
 					<Link href="/">
@@ -77,16 +76,16 @@ const Header: React.FC = () => {
 							</Link>
 						</>
 					) : (
-						<>
-							<ProfileLink href="profile">
-								<FaUserCircle />
-								<span>Meu Perfil</span>
-							</ProfileLink>
-
-							<a onClick={signOut} href="/">
-								Sair
-							</a>
-						</>
+						<label htmlFor="profile">
+							<FaUserCircle />
+							<span>{user.name.split(' ')[0].toUpperCase()}</span>
+							{!showMenu ? <FaChevronDown /> : <FaChevronUp />}
+							<input
+								onClick={() => setShowMenu(!showMenu)}
+								type="checkbox"
+								id="profile"
+							/>
+						</label>
 					)}
 				</AuthContainer>
 
@@ -95,32 +94,8 @@ const Header: React.FC = () => {
 				</HamburguerContainer>
 			</Container>
 
-			{showMenu && (
-				<MobileMenuContainer>
-					{!user ? (
-						<>
-							<Link href="signin">
-								<a href="signin">Entrar</a>
-							</Link>
-							<Link href="signup">
-								<a href="signup">Cadastrar</a>
-							</Link>
-						</>
-					) : (
-						<>
-							<ProfileLink href="profile">
-								<FaUserCircle />
-								<span>Meu Perfil</span>
-							</ProfileLink>
-
-							<a onClick={signOut} href="/">
-								Sair
-							</a>
-						</>
-					)}
-				</MobileMenuContainer>
-			)}
-		</>
+			<MobileMenu onBlur={() => setShowMenu(false)} showMenu={showMenu} />
+		</div>
 	);
 };
 
