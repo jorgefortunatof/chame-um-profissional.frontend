@@ -85,8 +85,6 @@ const UserProvider: React.FC = ({ children }) => {
 
 			const userUpdated = response.data;
 
-			console.log({ userUpdated });
-
 			localStorage.setItem(
 				'@ChameUmProfissional:user',
 				JSON.stringify(userUpdated),

@@ -49,7 +49,7 @@ const Home: React.FC = () => {
 			setProfessionals(responseProfessionals.data);
 			setSpotlight(responseSpotlight.data);
 		} catch (e) {
-			console.log(e);
+			console.log({ err });
 		}
 	}, [setCategories, setProfessionals, setSpotlight]);
 

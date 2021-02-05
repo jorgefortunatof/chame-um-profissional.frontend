@@ -122,9 +122,7 @@ const Profile: React.FC = () => {
 	);
 
 	useEffect(() => {
-		console.log({ loading, user });
 		if (!loading && !user?.id) {
-			console.log('teste');
 			router.push('/signin');
 		}
 	}, [user, loading, router]);

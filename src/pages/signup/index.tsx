@@ -83,7 +83,7 @@ const SignIn: React.FC = () => {
 			} catch (err) {
 				const errors = getValidationErros(err);
 				formRef.current?.setErrors({ ...errors });
-				console.log(err);
+				console.log({ err });
 			}
 		},
 		[signUp],
