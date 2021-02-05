@@ -56,6 +56,7 @@ const ImageInput: React.FC<InputProps> = ({ name, ...rest }) => {
 				<input
 					id="avatar"
 					type="file"
+					accept="image/x-png,image/jpg,image/jpeg"
 					ref={inputRef}
 					onChange={handlePreview}
 					{...rest}
